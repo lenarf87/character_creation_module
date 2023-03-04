@@ -1,5 +1,7 @@
 from random import randint
 
+from graphic_arts.start_game_banner import run_screensaver
+
 DEFAULT_ATTACK = 5
 DEFAULT_DEFENCE = 10
 DEFAULT_STAMINA = 80
@@ -60,35 +62,18 @@ class Healer(Character):
     SPECIAL_SKILL = 'Защита'
 
 
-def start_training(character):
-    """
-    Принимает на вход имя и класс персонажа.
-    Возвращает сообщения о результатах цикла тренировки персонажа.
-    """
-    commands = {
-        'attack': character.attack,
-        'defence': character.defence,
-        'special': character.special
-    }
-    print('Потренируйся управлять своими навыками.')
-    print('Введи одну из команд: attack — чтобы атаковать противника, '
-          'defence — чтобы блокировать атаку противника или '
-          'special — чтобы использовать свою суперсилу.')
-    print('Если не хочешь тренироваться, введи команду skip.')
+warrior = Warrior('Кодослав')
+print(warrior)
+print(warrior.attack())
 
-    selected_action = None
-    key = None
-
-    while selected_action != 'skip':
-        if selected_action in commands:
-            print(key)
-        selected_action = input('Введи команду: ')
-
-    return 'Тренировка окончена.'
-
+# Вывод в терминал:
+# Warrior — дерзкий воин ближнего боя. Сильный, выносливый и отважный.
+# Кодослав нанёс урон противнику, равный 8
 
 # Новая функция.
 # Добавили новый параметр — char_name.
+
+
 def choice_char_class(char_name: str) -> Character:
     """
     Возвращает строку с выбранным
@@ -96,7 +81,11 @@ def choice_char_class(char_name: str) -> Character:
     """
     # Добавили словарь, в котором соотносится
     # ввод пользователя и класс персонажа.
-    game_classes = {'warrior': Warrior, 'mage': Mage, 'healer': Healer}
+    game_classes = {
+        'warrior': Warrior,
+        'mage': Mage,
+        'healer': Healer
+        }
 
     approve_choice: str = None
 
@@ -111,3 +100,41 @@ def choice_char_class(char_name: str) -> Character:
                                'или любую другую кнопку, '
                                'чтобы выбрать другого персонажа ').lower()
     return char_class
+
+
+def start_training(char_class):
+    """
+    Принимает на вход имя и класс персонажа.
+    Возвращает сообщения о результатах цикла тренировки персонажа.
+    """
+    commands = {
+        'attack': Character.attack,
+        'defence': Character.defence,
+        'special': Character.special
+    }
+    print('Потренируйся управлять своими навыками.')
+    print('Введи одну из команд: attack — чтобы атаковать противника, '
+          'defence — чтобы блокировать атаку противника или '
+          'special — чтобы использовать свою суперсилу.')
+    print('Если не хочешь тренироваться, введи команду skip.')
+    selected_action = None
+    key = None
+    while selected_action != 'skip':
+        if selected_action in commands:
+            print(key)
+        selected_action = input('Введи команду: ')
+    return 'Тренировка окончена.'
+
+
+if __name__ == '__main__':
+    run_screensaver()
+    print('Приветствую тебя, искатель приключений!')
+    print('Прежде чем начать игру...')
+    char_name: str = input('...назови себя: ')
+    print(f'Здравствуй, {char_name}! '
+          'Сейчас твоя выносливость — 80, атака — 5 и защита — 10.')
+    print('Ты можешь выбрать один из трёх путей силы:')
+    print('Воитель, Маг, Лекарь')
+
+    char_class: str = choice_char_class(char_name)
+    print(start_training(char_class))
