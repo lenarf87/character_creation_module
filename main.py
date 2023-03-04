@@ -102,27 +102,29 @@ def choice_char_class(char_name: str) -> Character:
     return char_class
 
 
-def start_training(char_class):
+def start_training(character):
     """
     Принимает на вход имя и класс персонажа.
     Возвращает сообщения о результатах цикла тренировки персонажа.
     """
     commands = {
-        'attack': Character.attack,
-        'defence': Character.defence,
-        'special': Character.special
+        'attack': character.attack,
+        'defence': character.defence,
+        'special': character.special
     }
     print('Потренируйся управлять своими навыками.')
     print('Введи одну из команд: attack — чтобы атаковать противника, '
           'defence — чтобы блокировать атаку противника или '
           'special — чтобы использовать свою суперсилу.')
     print('Если не хочешь тренироваться, введи команду skip.')
-    selected_action = None
-    key = None
-    while selected_action != 'skip':
-        if selected_action in commands:
-            print(key)
-        selected_action = input('Введи команду: ')
+    cmd = None
+    while cmd != 'skip':
+        cmd = input('Введи команду: ')
+        if cmd in commands:
+            char_class: Character = commands[cmd]()
+            print(char_class)
+        else:
+            print('Набери правильно')
     return 'Тренировка окончена.'
 
 
@@ -135,6 +137,5 @@ if __name__ == '__main__':
           'Сейчас твоя выносливость — 80, атака — 5 и защита — 10.')
     print('Ты можешь выбрать один из трёх путей силы:')
     print('Воитель, Маг, Лекарь')
-
     char_class: str = choice_char_class(char_name)
     print(start_training(char_class))
